@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from search.views import ListIndexView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('indexes/', ListIndexView.as_view()),
 ]
