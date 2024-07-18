@@ -59,7 +59,7 @@ class MeiliSearchEngine:
         return self.client.get_indexes(parameters=parameters)
 
     @classmethod
-    def get_instance(cls, request):
+    def get_instance(cls, request, *args, **kwargs):
         MEILISEARCH_URL = getattr(settings, 'MEILISEARCH_URL')
         MEILISEARCH_PUBLIC_URL = getattr(settings, 'MEILISEARCH_PUBLIC_URL')
         MEILISEARCH_API_KEY = getattr(settings, 'MEILISEARCH_API_KEY')
