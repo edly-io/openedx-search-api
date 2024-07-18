@@ -131,4 +131,17 @@ MEILISEARCH_INDEX_PREFIX = "meilisearch_"
 MEILISEARCH_MASTER_API_KEY = "masterKey"
 MEILISEARCH_API_KEY = "da7a448d-2b13-490b-8ca6-6b3e051b4201"
 SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
-COURSEWARE_INFO_INDEX_NAME = 'course_info'
+
+INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
+INDEX_CONFIGURATIONS = {
+    "meilisearch_courseware_content": {
+        "pk": "id",
+        "search_rules": [
+            "ORG: Arbisoft"
+        ],
+        "filterable": [
+            "ORG",
+            "COURSE"
+        ],
+    }
+}

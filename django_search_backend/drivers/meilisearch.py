@@ -2,10 +2,35 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional, Mapping, Any, List, Dict
 
 from django.conf import settings
+from django.utils.module_loading import import_string
 from meilisearch import Client as MeilisearchClient
 from meilisearch.errors import MeilisearchError
 from meilisearch.index import Index
 from meilisearch.models.key import Key
+
+from django_search_backend.drivers import BaseDriver
+
+
+class BaseIndexConfiguration(BaseDriver):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        self._INDEX_CONFIGURATIONS = getattr(
+            settings,
+            'INDEX_CONFIGURATIONS',
+            {}
+        )
+
+    @property
+    def indexes(self):
+        return self._INDEX_CONFIGURATIONS.keys()
+
+    def get_search_rules(self, search_rules=None):
+        if search_rules is None:
+            search_rules = []
+        rules = {}
+        for index, config in self._INDEX_CONFIGURATIONS.items():
+            rules[index] = {'filter': ' AND '.join(config.get('search_rules', []) + search_rules)}
+        return rules
 
 
 class MeiliSearchEngine:
@@ -71,3 +96,18 @@ class MeiliSearchEngine:
             MEILISEARCH_API_KEY,
             MEILISEARCH_MASTER_API_KEY
         )
+
+    def _get_search_rules_class(self, *args, **kwargs) -> BaseIndexConfiguration:
+        IndexConfig = getattr(
+            settings,
+            'INDEX_CONFIGURATION_CLASS',
+            'django_search_backend.drivers.meilisearch.BaseIndexConfiguration'
+        )
+        klass = import_string(IndexConfig)
+        return klass(self.request, *args, **kwargs)
+
+    def get_search_rules(self, search_rules=None):
+        if search_rules is None:
+            search_rules = []
+        rules_instance = self._get_search_rules_class()
+        return rules_instance.get_search_rules(search_rules=search_rules)

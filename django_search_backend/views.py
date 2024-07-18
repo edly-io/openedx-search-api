@@ -7,8 +7,7 @@ from django_search_backend.drivers import DriverFactory
 class AuthTokenView(View):
     def get(self, request):
         client = DriverFactory.get_client(request)
-        token = client.get_user_token({
-            'meilisearch_courseware_content': {}
-        })
+        search_rules = client.get_search_rules()
+        token = client.get_user_token(search_rules)
 
         return JsonResponse(token)
