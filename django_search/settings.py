@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_search_backend'
 ]
 
 MIDDLEWARE = [
@@ -129,5 +130,5 @@ MEILISEARCH_PUBLIC_URL = "http://localhost:7700"
 MEILISEARCH_INDEX_PREFIX = "meilisearch_"
 MEILISEARCH_MASTER_API_KEY = "masterKey"
 MEILISEARCH_API_KEY = "da7a448d-2b13-490b-8ca6-6b3e051b4201"
-SEARCH_ENGINE = "search.drivers.meilisearch.MeiliSearchEngine"
+SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
 COURSEWARE_INFO_INDEX_NAME = 'course_info'

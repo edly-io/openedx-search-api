@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from search.views import AuthTokenView
+from django_search_backend.views import AuthTokenView
 
 urlpatterns = [
     path('indexes/', AuthTokenView.as_view()),

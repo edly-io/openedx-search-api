@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.generic import View
 
-from search.drivers import DriverFactory
+from django_search_backend.drivers import DriverFactory
 
 
 class AuthTokenView(View):
