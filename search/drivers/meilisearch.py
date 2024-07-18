@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 from typing import Optional, Mapping, Any, List, Dict
 
+from django.conf import settings
 from meilisearch import Client as MeilisearchClient
 from meilisearch.errors import MeilisearchError
 from meilisearch.index import Index
@@ -56,3 +57,17 @@ class MeiliSearchEngine:
 
     def indexes(self, parameters: Optional[Mapping[str, Any]] = None) -> Dict[str, List[Index]]:
         return self.client.get_indexes(parameters=parameters)
+
+    @classmethod
+    def get_instance(cls, request):
+        MEILISEARCH_URL = getattr(settings, 'MEILISEARCH_URL')
+        MEILISEARCH_PUBLIC_URL = getattr(settings, 'MEILISEARCH_PUBLIC_URL')
+        MEILISEARCH_API_KEY = getattr(settings, 'MEILISEARCH_API_KEY')
+        MEILISEARCH_MASTER_API_KEY = getattr(settings, 'MEILISEARCH_MASTER_API_KEY')
+        return MeiliSearchEngine(
+            request,
+            MEILISEARCH_URL,
+            MEILISEARCH_PUBLIC_URL,
+            MEILISEARCH_API_KEY,
+            MEILISEARCH_MASTER_API_KEY
+        )

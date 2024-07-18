@@ -117,10 +117,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-################### Studio Search (beta), using Meilisearch ###################
-
-# Enable Studio search features (powered by Meilisearch) (beta, off by default)
-MEILISEARCH_ENABLED = True
+################### Meilisearch ###################
 # Meilisearch URL that the python backend can use. Often points to another docker container or k8s service.
 MEILISEARCH_URL = "http://localhost:7700"
 # URL that browsers (end users) can use to reach Meilisearch. Should be HTTPS in production.
@@ -132,5 +129,5 @@ MEILISEARCH_PUBLIC_URL = "http://localhost:7700"
 MEILISEARCH_INDEX_PREFIX = "meilisearch_"
 MEILISEARCH_MASTER_API_KEY = "masterKey"
 MEILISEARCH_API_KEY = "da7a448d-2b13-490b-8ca6-6b3e051b4201"
-SEARCH_ENGINE = "search.meilisearch.MeiliSearchEngine"
+SEARCH_ENGINE = "search.drivers.meilisearch.MeiliSearchEngine"
 COURSEWARE_INFO_INDEX_NAME = 'course_info'
