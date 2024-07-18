@@ -1,6 +1,7 @@
 # Django Search Integration
 
-Welcome to the **Django Search** project! This implementation supports multiple search engines and is configured to use **Meilisearch** by default.
+Welcome to the **Django Search** project! This implementation supports multiple search engines and is configured to use
+**Meilisearch** by default.
 
 ## Installation
 
@@ -37,4 +38,34 @@ SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
 
 # Index name for courseware information
 COURSEWARE_INFO_INDEX_NAME = 'course_info'
+```
+
+## Rules Based Tokens
+
+1. Set below mentioned configurations to set token wide search rules on index.
+
+```python
+INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
+INDEX_CONFIGURATIONS = {
+    "meilisearch_courseware_content": {
+        "pk": "id",
+        "search_rules": [
+            "ORG: Arbisoft"
+        ],
+        "filterable": [
+            "ORG",
+            "COURSE"
+        ],
+    }
+}
+```
+
+2. After updating settings you can use below snippet to generate personalised token.
+
+```python
+    from django_search_backend.drivers import DriverFactory
+
+client = DriverFactory.get_client(request)
+search_rules = client.get_search_rules()
+token = client.get_user_token(search_rules)
 ```
