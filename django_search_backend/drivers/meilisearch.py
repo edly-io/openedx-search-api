@@ -3,7 +3,7 @@ from typing import Optional, Mapping, Any, List, Dict
 
 from django.conf import settings
 from django.utils.module_loading import import_string
-from meilisearch import Client as MeilisearchClient
+from meilisearch import Client as MeilisearchClient, errors
 from meilisearch.errors import MeilisearchError
 from meilisearch.index import Index
 from meilisearch.models.key import Key
@@ -111,3 +111,12 @@ class MeiliSearchEngine:
             search_rules = []
         rules_instance = self._get_search_rules_class()
         return rules_instance.get_search_rules(search_rules=search_rules)
+
+    def index(self, index_name, options=None):
+
+        self._index = self.client.index(index_name)
+        try:
+            self._index.fetch_info()
+        except errors.MeilisearchApiError:
+            self.client.create_index(index_name, options=options)
+        return self._index

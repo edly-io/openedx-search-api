@@ -133,6 +133,7 @@ MEILISEARCH_API_KEY = "da7a448d-2b13-490b-8ca6-6b3e051b4201"
 SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
 
 INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
+INDEXER_CLASS = "django_search_backend.indexers.base.BaseIndexer"
 INDEX_CONFIGURATIONS = {
     "meilisearch_courseware_content": {
         "pk": "id",
@@ -143,5 +144,7 @@ INDEX_CONFIGURATIONS = {
             "ORG",
             "COURSE"
         ],
+        "model_class": "auth.User",
+        "fields": ["id", "username", "email"]
     }
 }
