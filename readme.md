@@ -11,6 +11,12 @@ To get started, install the package using the following command:
 pip install git+https://github.com/qasimgulzar/django-search.git
 ```
 
+## Implementation Checklist
+
+1. [x] Generate token based of search rules
+2. [x] Configurable data indexing commands
+3. [ ] API endpoint for token
+
 ## Configuration
 
 Configure your Django settings to integrate with Meilisearch:
