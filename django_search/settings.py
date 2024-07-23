@@ -135,7 +135,7 @@ SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
 INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
 INDEXER_CLASS = "django_search_backend.indexers.base.BaseIndexer"
 INDEX_CONFIGURATIONS = {
-    "meilisearch_courseware_content1": {
+    "meilisearch_courseware_content": {
         "options": {
             "primaryKey": "id"
         },
