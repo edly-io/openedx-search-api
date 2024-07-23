@@ -112,11 +112,11 @@ class MeiliSearchEngine:
         rules_instance = self._get_search_rules_class()
         return rules_instance.get_search_rules(search_rules=search_rules)
 
-    def index(self, index_name, options=None):
-
+    def index(self, index_name, settings=None, options=None):
         self._index = self.client.index(index_name)
         try:
             self._index.fetch_info()
         except errors.MeilisearchApiError:
-            self.client.create_index(index_name, options=options)
+            self.client.create_index(index_name, options or {})
+            self._index.update_settings(settings or {})
         return self._index

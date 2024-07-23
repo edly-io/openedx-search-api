@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from django.apps import apps
 from django.core.management import BaseCommand
@@ -31,5 +32,5 @@ class Command(BaseCommand):
             model_klass = apps.get_model(*config['model_class'].split('.'))
             serializer_klass = self.get_serializer(model_klass, _fields=config.get('fields'))
             indexer = klass(index_name, model_klass.objects.all(), serializer_klass, client)
-
-            log.debug(indexer.index())
+            task_info = indexer.index(config.get('settings', {}))
+            sys.stdout.write(f"task UID: {task_info.task_uid}, index UID: {task_info.index_uid}\n")
