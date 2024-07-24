@@ -135,17 +135,18 @@ SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
 INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
 INDEXER_CLASS = "django_search_backend.indexers.base.BaseIndexer"
 INDEX_CONFIGURATIONS = {
-    "meilisearch_courseware_content": {
+    "user_content": {
         "options": {
             "primaryKey": "id"
         },
         "search_rules": [
-            "ORG: Arbisoft"
+            "IS_STAFF: false"
         ],
         "settings": {
             "filterableAttributes": [
                 "IS_SUPERUSER",
-                "USERNAME"
+                "USERNAME",
+                "IS_STAFF"
             ]
         },
         "model_class": "auth.User",
