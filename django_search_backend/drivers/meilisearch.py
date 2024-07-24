@@ -33,10 +33,12 @@ class BaseIndexConfiguration(BaseDriver):
         return rules
 
 
-class MeiliSearchEngine:
+class MeiliSearchEngine(BaseDriver):
+    SEARCH_ENGINE = 'meilisearch'
 
-    def __init__(self, request, meilisearch_url, meilisearch_public_url, meilisearch_api_key,
+    def __init__(self, request, meilisearch_url, meilisearch_public_url, meilisearch_api_id, meilisearch_api_key,
                  meilisearch_master_api_key, expiry_days=7):
+        self.API_KEY_ID = meilisearch_api_id
         self.API_KEY = meilisearch_api_key
         self.URL = meilisearch_url
         self.PUBLIC_URL = meilisearch_public_url
@@ -62,7 +64,7 @@ class MeiliSearchEngine:
         Helper method to get the UID of the API key we're using for Meilisearch
         """
         if self._MEILI_API_KEY_UID is None:
-            self._MEILI_API_KEY_UID = self.client.get_key(self.API_KEY).uid
+            self._MEILI_API_KEY_UID = self.client.get_key(self.API_KEY_ID).uid
         return self._MEILI_API_KEY_UID
 
     def get_user_token(self, index_search_rules=None):
@@ -71,13 +73,16 @@ class MeiliSearchEngine:
             api_key_uid=self._get_meili_api_key_uid(),
             search_rules=index_search_rules or {},
             expires_at=self.token_expires_at,
+            api_key=self.API_KEY
         )
 
         return {
             "url": self.PUBLIC_URL,
             "token": restricted_api_key,
             "token_type": "Bearer",
-            "expires_at": self.token_expires_at
+            "expires_at": self.token_expires_at,
+            "search_engine": self.SEARCH_ENGINE,
+            "index_search_rules": index_search_rules
         }
 
     def indexes(self, parameters: Optional[Mapping[str, Any]] = None) -> Dict[str, List[Index]]:
@@ -87,12 +92,14 @@ class MeiliSearchEngine:
     def get_instance(cls, request, *args, **kwargs):
         MEILISEARCH_URL = getattr(settings, 'MEILISEARCH_URL')
         MEILISEARCH_PUBLIC_URL = getattr(settings, 'MEILISEARCH_PUBLIC_URL')
+        MEILISEARCH_API_KEY_ID = getattr(settings, 'MEILISEARCH_API_KEY_ID')
         MEILISEARCH_API_KEY = getattr(settings, 'MEILISEARCH_API_KEY')
         MEILISEARCH_MASTER_API_KEY = getattr(settings, 'MEILISEARCH_MASTER_API_KEY')
         return MeiliSearchEngine(
             request,
             MEILISEARCH_URL,
             MEILISEARCH_PUBLIC_URL,
+            MEILISEARCH_API_KEY_ID,
             MEILISEARCH_API_KEY,
             MEILISEARCH_MASTER_API_KEY
         )
