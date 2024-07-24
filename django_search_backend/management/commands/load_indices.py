@@ -29,8 +29,8 @@ class Command(BaseCommand):
         INDEX_CONFIGURATIONS = getattr(settings, 'INDEX_CONFIGURATIONS', {})
 
         for index_name, config in INDEX_CONFIGURATIONS.items():
-            content_klass = import_string(config['content_class'])
             if 'content_class' in config:
+                content_klass = import_string(config['content_class'])
                 indexer = klass(index_name, None, None, client)
                 documents = content_klass().fetch()
                 task_info = indexer.index_documents(documents, config.get('settings', {}))

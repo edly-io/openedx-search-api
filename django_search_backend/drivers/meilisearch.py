@@ -65,11 +65,11 @@ class MeiliSearchEngine:
             self._MEILI_API_KEY_UID = self.client.get_key(self.API_KEY).uid
         return self._MEILI_API_KEY_UID
 
-    def get_user_token(self, index_search_rules=dict()):
+    def get_user_token(self, index_search_rules=None):
         # Note: the following is just generating a JWT. It doesn't actually make an API call to Meilisearch.
         restricted_api_key = self.client.generate_tenant_token(
             api_key_uid=self._get_meili_api_key_uid(),
-            search_rules=index_search_rules,
+            search_rules=index_search_rules or {},
             expires_at=self.token_expires_at,
         )
 
