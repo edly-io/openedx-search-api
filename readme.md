@@ -55,21 +55,35 @@ COURSEWARE_INFO_INDEX_NAME = 'course_info'
 ```python
 INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
 INDEX_CONFIGURATIONS = {
-    "meilisearch_courseware_content": {
+    "user_content": {
         "options": {
             "primaryKey": "id"
         },
         "search_rules": [
-            "ORG: Arbisoft"
+            "IS_STAFF: false"
         ],
         "settings": {
             "filterableAttributes": [
                 "IS_SUPERUSER",
-                "USERNAME"
+                "USERNAME",
+                "IS_STAFF"
             ]
         },
         "model_class": "auth.User",
         "fields": "__all__"
+    },
+    "courseware_course_structure": {
+        "options": {
+            "primaryKey": "item_id"
+        },
+        "settings": {
+            "filterableAttributes": [
+                "CONTENT_TYPE",
+                "COURSE",
+                "ORG"
+            ]
+        },
+        "content_class": "openedx.core.djangoapps.content.content_classes.courseware_search_models.CoursewareContent"
     }
 }
 ```
