@@ -5,11 +5,23 @@ function SearchEngine(engine = "meilisearch", config = undefined, indexUid) {
     const engines = {
         "meilisearch": function () {
             this.buildQuery = function (q, payload) {
+                const filters = [];
+                Object.keys(payload).map((key) => {
+                    if (Array.isArray(payload[key]) && payload[key]) {
+                        filters.push(`${key} IN [${payload[key].join(',')}]`);
+                    } else if (!Array.isArray(payload[key]) && payload[key] instanceof Object) {
+                        //     todo handle nested dictionary.
+                    } else {
+                        filters.push(`${key}='${payload[key]}'`);
+                    }
+                });
+                const query = filters.join(' AND ')
                 return {
                     q,
                     facets: [],
                     limit: 21,
-                    offset: 0
+                    offset: 0,
+                    filter: query
                 }
             }
             this.transformResponse = function (rawResponse) {
