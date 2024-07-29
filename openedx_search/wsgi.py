@@ -1,5 +1,5 @@
 """
-WSGI config for django_search project.
+WSGI config for openedx_search project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_search.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'openedx_search.settings')
 
 application = get_wsgi_application()

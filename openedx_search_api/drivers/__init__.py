@@ -32,7 +32,7 @@ class DriverFactory:
         search_driver = getattr(
             settings,
             'SEARCH_ENGINE',
-            'django_search_backend.drivers.meilisearch.MeiliSearchEngine'
+            'django_search_api.drivers.meilisearch.MeiliSearchEngine'
         )
         klass = import_string(search_driver)
         return klass.get_instance(request, *args, **kwargs)

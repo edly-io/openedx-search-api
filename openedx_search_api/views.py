@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views.generic import View
 
-from django_search_backend.drivers import DriverFactory
+from .drivers import DriverFactory
 
 
 class AuthTokenView(LoginRequiredMixin, View):

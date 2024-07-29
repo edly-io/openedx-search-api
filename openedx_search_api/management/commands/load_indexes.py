@@ -7,7 +7,7 @@ from django.conf import settings
 from django.utils.module_loading import import_string
 from rest_framework import serializers
 
-from django_search_backend.drivers import DriverFactory
+from django_search_api.drivers import DriverFactory
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         client = DriverFactory.get_client(None)
-        INDEXER_CLASS = getattr(self, 'INDEXER_CLASS', 'django_search_backend.indexers.base.BaseIndexer')
+        INDEXER_CLASS = getattr(self, 'INDEXER_CLASS', 'django_search_api.indexers.base.BaseIndexer')
         klass = import_string(INDEXER_CLASS)
         INDEX_CONFIGURATIONS = getattr(settings, 'INDEX_CONFIGURATIONS', {})
 

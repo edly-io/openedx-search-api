@@ -8,7 +8,7 @@ from meilisearch.errors import MeilisearchError
 from meilisearch.index import Index
 from meilisearch.models.key import Key
 
-from django_search_backend.drivers import BaseDriver
+from . import BaseDriver
 
 
 class BaseIndexConfiguration(BaseDriver):
@@ -108,7 +108,7 @@ class MeiliSearchEngine(BaseDriver):
         IndexConfig = getattr(
             settings,
             'INDEX_CONFIGURATION_CLASS',
-            'django_search_backend.drivers.meilisearch.BaseIndexConfiguration'
+            'django_search_api.drivers.meilisearch.BaseIndexConfiguration'
         )
         klass = import_string(IndexConfig)
         return klass(self.request, *args, **kwargs)

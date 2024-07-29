@@ -1,5 +1,5 @@
 """
-URL configuration for django_search project.
+URL configuration for openedx_search project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -17,5 +17,5 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('django_search_backend.urls')),
+    path('', include('openedx_search_api.urls')),
 ]

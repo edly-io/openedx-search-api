@@ -30,9 +30,9 @@ setup(
     name='django-search',
     version='0.0.0',
     packages=[
-        'django_search_backend',
-        'django_search_backend.drivers',
-        'django_search_backend.migrations',
+        'openedx_search_api',
+        'openedx_search_api.drivers',
+        'openedx_search_api.migrations',
     ],
     install_requires=load_requirements('requirements/base.in'),
     url='https://github.com/qasimgulzar/django-search',
