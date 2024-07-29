@@ -15,7 +15,7 @@ pip install git+https://github.com/qasimgulzar/django-search.git
 
 1. [x] Generate token based of search rules
 2. [x] Configurable data indexing commands
-3. [ ] API endpoint for token
+3. [x] API endpoint for token
 
 ## Configuration
 
@@ -88,7 +88,8 @@ INDEX_CONFIGURATIONS = {
 }
 ```
 
-2. After updating settings you can use below snippet to generate personalised token.
+2. `./manage.py load_indexes`
+3. After updating settings you can use below snippet to generate personalised token.
 
 ```python
     from django_search_backend.drivers import DriverFactory
