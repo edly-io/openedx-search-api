@@ -88,6 +88,6 @@ Open edX Search API
 ===================
 
 The Open edX Search API is designed with a forward-thinking approach, ensuring seamless integration with a wide range of future search engines.
- This package aims to provide flexibility, scalability, and ease of use for developers looking to enhance their search capabilities within the Open edX platform.
+This package aims to provide flexibility, scalability, and ease of use for developers looking to enhance their search capabilities within the Open edX platform.
 
 
