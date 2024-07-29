@@ -60,13 +60,13 @@ INDEX_CONFIGURATIONS = {
             "primaryKey": "id"
         },
         "search_rules": [
-            "IS_STAFF: false"
+            "is_staff: false"
         ],
         "settings": {
             "filterableAttributes": [
-                "IS_SUPERUSER",
-                "USERNAME",
-                "IS_STAFF"
+                "is_superuser",
+                "username",
+                "is_staff"
             ]
         },
         "model_class": "auth.User",
@@ -78,9 +78,9 @@ INDEX_CONFIGURATIONS = {
         },
         "settings": {
             "filterableAttributes": [
-                "CONTENT_TYPE",
-                "COURSE",
-                "ORG"
+                "content_type",
+                "course",
+                "org"
             ]
         },
         "content_class": "openedx.core.djangoapps.content.content_classes.courseware_search_models.CoursewareContent"
