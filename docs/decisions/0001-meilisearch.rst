@@ -87,12 +87,12 @@ At the time of writing, there are only two known concerns with Meilisearch:
 Problem with edx-search
 =======================
 
-The edx-search feature is currently utilized only within the edx-platform, and many of its implementations are now deprecated in the new microfrontend environments. Additionally, it lacks the personalized token functionality, making it incompatible with advanced search engines such as Meilisearch. Even if we attempt to extend edx-search to support Meilisearch, it would still follow the same proxy mechanism and would not be able to utilize personalized tokens effectively. You can find a detailed list of architectural issues here.
+The edx-search feature is currently utilized only within the edx-platform, and many of its implementations are now deprecated in the new microfrontend environments. Additionally, it lacks the personalized token functionality, making it incompatible with advanced search engines such as Meilisearch. Even if we attempt to extend edx-search to support Meilisearch, it would still follow the same proxy mechanism and would not be able to utilize personalized tokens effectively. To find a detailed list of architectural issues here.
 
 Open edX Search API
 ===================
 
-I am proposing a new abstraction package with more generalised architecture inorder to support all available search engines including elasticsearch, meilisearch and algolia.
+We are proposing a new abstraction package with more generalised architecture inorder to support all available search engines including elasticsearch, meilisearch and algolia.
 The Open edX Search API is designed with a forward-thinking approach, ensuring seamless integration with a wide range of future search engines.
 This package aims to provide flexibility, scalability, and ease of use for developers looking to enhance their search capabilities within the Open edX platform.
 
@@ -106,14 +106,14 @@ Driver Class
 ============
 
 The base driver class contains the following functions: `get_user_token()`, `check_connection()`, `indexes()`, `index()`, and `get_search_rules()`. To integrate a new search engine or driver, the child class must implement all these functions.
-This class is responsible for initializing the communication protocol between client and the search service. You can change the driver class by updating the value of `SEARCH_ENGINE` in django settings.
+This class is responsible for initializing the communication protocol between client and the search service. To change the driver class by updating the value of `SEARCH_ENGINE` in django settings.
 the default value is `SEARCH_ENGINE = "openedx_search_api.drivers.meilisearch.MeiliSearchEngine"`
 
 Indexer Class
 =============
 
 The base indexer class consists of the `index()` and `index_documents()` functions. To override the default functionality of the base class, the child indexer class should implement these functions.
-Inorder to update the indexer class you can set `INDEXER_CLASS` attribute in django settings default value is `INDEXER_CLASS = "openedx_search_api.indexers.base.BaseIndexer"`
+Inorder to update the indexer class set `INDEXER_CLASS` attribute in django settings default value is `INDEXER_CLASS = "openedx_search_api.indexers.base.BaseIndexer"`
 
 Load Indexes
 ============
@@ -138,10 +138,9 @@ Examples
 ========
 Below is an example of adding a client SDK:
 ```html
-<script src="<%= process.env.BASE_URL %>/static/django_search_backend/js/search_library.js"
-        type="text/javascript"></script>
+<script src="<%= process.env.BASE_URL %>/static/django_search_backend/js/search_library.js" type="text/javascript"></script>
 ```
 
-I have created an example to showcase this [here](https://github.com/openedx/frontend-app-learning/compare/master...qasimgulzar:frontend-app-learning:qasim/autosuggest-courseware).
+We have created an example to showcase this [here](https://github.com/openedx/frontend-app-learning/compare/master...qasimgulzar:frontend-app-learning:qasim/autosuggest-courseware).
 
-You can also refer to the [Content Class Example](https://github.com/openedx/edx-platform/pull/35177/files#diff-9f2ba6df1933f2b8b4a9939582d954107a465742a83db2c13cdc89eec8cc1fc3).
+Please also refer to the [Content Class Example](https://github.com/openedx/edx-platform/pull/35177/files#diff-9f2ba6df1933f2b8b4a9939582d954107a465742a83db2c13cdc89eec8cc1fc3).
