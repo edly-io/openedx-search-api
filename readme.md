@@ -1,4 +1,4 @@
-![Testing](https://github.com/qasimgulzar/openedx-search-api/actions/workflows/testing.yml/badge.svg)
+![Testing](https://github.com/qasimgulzar/openedx-search-api/actions/workflows/testing.yml/badge.svg)![PyLint](https://github.com/qasimgulzar/openedx-search-api/actions/workflows/pylint.yml/badge.svg)
 # Django Search Integration
 
 Welcome to the **Django Search** project! This implementation supports multiple search engines and is configured to use
