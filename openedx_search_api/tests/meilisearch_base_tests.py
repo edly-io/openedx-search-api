@@ -12,7 +12,7 @@ class MeilisearchDriverTestCase(TestCase):
             "http://localhost:7700",
             "c471bd40-303b-48bc-bb80-4602baff2675",
             "7d6b4e462ac450051d0618d277dc46051db30160bf9bc28a0dd2e7f097c9eecd",
-            "masterKey",
+            "masterkey",
             expiry_days=7
         )
 
