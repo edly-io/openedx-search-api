@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [ 3.11.4 ]
+        python-version: [ 3.11 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -21,10 +21,17 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Start Meilisearch
+        uses: moy2010/meilisearch-github-action@0.1
+        with:
+          meilisearch-version: v0.25.2
+          meilisearch-port: 42069
+          meilisearch-api-key: masterKey
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements/development.txt
+
       - name: Run Tests
         run: |
           python manage.py test

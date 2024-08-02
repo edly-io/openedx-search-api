@@ -50,9 +50,11 @@ class MeiliSearchEngine(BaseDriver):
     def check_connection(self):
         try:
             self.client.health()
+            return True
         except MeilisearchError as err:
             self.client = None
             raise ConnectionError("Unable to connect to Meilisearch") from err
+        return False
 
     def create_key(self) -> Key:
         return self.client.create_key(
