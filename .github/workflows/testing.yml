@@ -25,7 +25,6 @@ jobs:
         uses: moy2010/meilisearch-github-action@0.1
         with:
           meilisearch-version: v0.25.2
-          meilisearch-port: 42069
           meilisearch-api-key: masterKey
       - name: Install Dependencies
         run: |
