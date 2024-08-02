@@ -20,7 +20,6 @@ jobs:
           MEILI_NO_ANALYTICS: true
           MEILI_ENV: development
           MEILI_LOG_LEVEL: DEBUG
-        restart: unless-stopped
     strategy:
       max-parallel: 4
       matrix:
