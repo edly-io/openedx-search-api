@@ -118,7 +118,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+"""
 ################### Meilisearch ###################
+"""
 # Meilisearch URL that the python backend can use. Often points to another docker container or k8s service.
 MEILISEARCH_URL = "http://localhost:7700"
 # URL that browsers (end users) can use to reach Meilisearch. Should be HTTPS in production.

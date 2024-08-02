@@ -3,13 +3,13 @@ from django.utils.module_loading import import_string
 
 
 class BaseDriver:
-    def get_user_token(self, index_search_rules=dict()):
+    def get_user_token(self, index_search_rules=None):
         raise Exception("Not Implemented")
 
-    def check_connection(self, index_search_rules=dict()):
+    def check_connection(self):
         raise Exception("Not Implemented")
 
-    def indexes(self, index_search_rules=dict()):
+    def indexes(self):
         raise Exception("Not Implemented")
 
     def index(self, index_name, payload):
