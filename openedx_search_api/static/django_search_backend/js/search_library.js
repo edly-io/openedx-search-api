@@ -26,9 +26,12 @@ function SearchEngine(engine = "meilisearch", config = undefined, indexUid) {
             }
             this.transformResponse = function (rawResponse) {
                 return {
+                    took: rawResponse.processingTimeMs,
                     results: rawResponse.hits,
                     limit: rawResponse.limit,
-                    offset: rawResponse.offset
+                    offset: rawResponse.offset,
+                    total: rawResponse.estimatedTotalHits,
+                    maxScore: null,
                 };
             }
             this.getSearchURL = function () {
@@ -48,27 +51,27 @@ SearchEngine.prototype.queryBuilder = function (term, payload) {
 SearchEngine.prototype.getSearchURL = function () {
     return this.client.getSearchURL();
 }
-SearchEngine.prototype.search = function (term, filters, onsuccess, onerror) {
-
-    const payload = this.queryBuilder(term, filters)
-    this.request(this.getSearchURL(), 'POST', JSON.stringify(payload),
-        onsuccess,
-        onerror
-    );
+SearchEngine.prototype.search = function (term, filters) {
+    const payload = this.queryBuilder(term, filters);
+    return this.request(this.getSearchURL(), 'POST', JSON.stringify(payload));
 }
-SearchEngine.prototype.request = function (url, method, body, onsuccess, onerror) {
-    const _this = this
-    let xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
-    xhr.setRequestHeader('Authorization', `Bearer ${this.config.token}`);
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            const results = _this.client.transformResponse(JSON.parse(this.responseText))
-            onsuccess(results);
-        } else {
-            onerror(this);
+SearchEngine.prototype.request = function (url, method, body) {
+    const _this = this;
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8');
+        xhr.setRequestHeader('Authorization', `Bearer ${this.config.token}`);
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    const results = _this.client.transformResponse(JSON.parse(this.responseText));
+                    resolve(results);
+                } else {
+                    reject(this);
+                }
+            }
         }
-    }
-    xhr.send(body);
+        xhr.send(body);
+    });
 }
