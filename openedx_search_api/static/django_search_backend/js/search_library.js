@@ -1,5 +1,4 @@
 "use strict"
-
 function SearchEngine(engine = "meilisearch", config = undefined, indexUid) {
 
     const engines = {
@@ -74,4 +73,14 @@ SearchEngine.prototype.request = function (url, method, body) {
         }
         xhr.send(body);
     });
+}
+// Export for CommonJS, AMD, and Global scope
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = SearchEngine;
+} else if (typeof define === 'function' && define.amd) {
+    define([], function () {
+        return SearchEngine;
+    });
+} else {
+    window.SearchEngine = SearchEngine;
 }
