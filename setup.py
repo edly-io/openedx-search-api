@@ -27,7 +27,7 @@ def is_requirement(line):
 
 
 setup(
-    name='django-search',
+    name='openedx-search',
     version='0.0.0',
     packages=[
         'openedx_search_api',

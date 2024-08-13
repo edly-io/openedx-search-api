@@ -34,7 +34,7 @@ class BaseDriver:
         """
         raise NotImplementedError("Method 'indexes' not implemented")
 
-    def index(self, index_name, payload):
+    def index(self, index_name, index_settings):
         """
         Index the provided payload in the specified index.
         
@@ -66,7 +66,7 @@ class DriverFactory:
         return getattr(
             settings,
             'SEARCH_ENGINE',
-            'django_search_api.drivers.meilisearch.MeiliSearchEngine'
+            'openedx_search_api.drivers.meilisearch.MeiliSearchEngine'
         )
 
     @classmethod
@@ -80,7 +80,7 @@ class DriverFactory:
         search_driver = getattr(
             settings,
             'SEARCH_ENGINE',
-            'django_search_api.drivers.meilisearch.MeiliSearchEngine'
+            'openedx_search_api.drivers.meilisearch.MeiliSearchEngine'
         )
         klass = import_string(search_driver)
         return klass.get_instance(request, *args, **kwargs)
