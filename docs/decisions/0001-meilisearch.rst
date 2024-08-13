@@ -146,4 +146,4 @@ Below is an example of adding a client SDK:
 
 We have created an example to showcase this `here <https://github.com/openedx/frontend-app-learning/compare/master...qasimgulzar:frontend-app-learning:qasim/autosuggest-courseware>`_.
 
-Please also refer to the Content Class `Example <https://github.com/openedx/edx-platform/pull/35177/files#diff-9f2ba6df1933f2b8b4a9939582d954107a465742a83db2c13cdc89eec8cc1fc3>`.
+Please also refer to the Content Class `Example <https://github.com/openedx/edx-platform/pull/35177/files#diff-9f2ba6df1933f2b8b4a9939582d954107a465742a83db2c13cdc89eec8cc1fc3>`_.
