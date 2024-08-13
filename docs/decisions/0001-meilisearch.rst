@@ -89,8 +89,9 @@ Problem with edx-search
 
 The edx-search feature is currently utilized only within the edx-platform, and many of its implementations are now deprecated in the new microfrontend environments. Additionally, it lacks the personalized token functionality, making it incompatible with advanced search engines such as Meilisearch. Even if we attempt to extend edx-search to support Meilisearch, it would still follow the same proxy mechanism and would not be able to utilize personalized tokens effectively. To find a detailed list of architectural issues here.
 
-To learn more about the state of edx-search please refer`here <https://openedx.atlassian.net/wiki/spaces/AC/pages/3884744738/State+of+edx-search+2023>`_.
-@Braden has also mentioned couple of problems `here <https://discuss.openedx.org/t/auto-suggest-course-content-on-search-meilisearch-compatible/13202/18?u=qasimgulzar>`_ with edx-platform.
+To learn more about the state of edx-search please refer `here <https://openedx.atlassian.net/wiki/spaces/AC/pages/3884744738/State+of+edx-search+2023>`_.
+
+`@Braden <https://discuss.openedx.org/u/braden/summary>`_ has also mentioned couple of problems `here <https://discuss.openedx.org/t/auto-suggest-course-content-on-search-meilisearch-compatible/13202/18?u=qasimgulzar>`_ with edx-search.
 
 Decision
 ********
