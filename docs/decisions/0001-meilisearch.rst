@@ -78,7 +78,7 @@ As of August 2024, there are only two known concerns with Meilisearch:
 
 1. It doesn't (yet) support High Availability via replication, although this is
    planned and under development. It does have other features to support high
-   availability, such as very low restart time (in ms).
+   availability, such as very low restart time (in ms). `link <https://roadmap.meilisearch.com/c/24-high-availibility?&utm_medium=social&utm_source=starter_share>`_
 2. It doesn't support boolean operators in keyword search ("red AND panda"),
    though it does of course support boolean operators in filters. This is a
    product decision aimed at keeping the user experience simple, and is unlikely
@@ -88,6 +88,9 @@ Problem with edx-search
 =======================
 
 The edx-search feature is currently utilized only within the edx-platform, and many of its implementations are now deprecated in the new microfrontend environments. Additionally, it lacks the personalized token functionality, making it incompatible with advanced search engines such as Meilisearch. Even if we attempt to extend edx-search to support Meilisearch, it would still follow the same proxy mechanism and would not be able to utilize personalized tokens effectively. To find a detailed list of architectural issues here.
+
+To learn more about the state of edx-search please refer`here <https://openedx.atlassian.net/wiki/spaces/AC/pages/3884744738/State+of+edx-search+2023>`_.
+@Braden has also mentioned couple of problems `here <https://discuss.openedx.org/t/auto-suggest-course-content-on-search-meilisearch-compatible/13202/18?u=qasimgulzar>`_ with edx-platform.
 
 Decision
 ********
