@@ -12,6 +12,7 @@ class BaseIndexer:
     """
     Base class for indexing documents in MeiliSearch.
     """
+
     def __init__(self, index_name: str, queryset: QuerySet,
                  serializer_class: type(Serializer), client: MeiliSearchEngine):
         """
@@ -36,7 +37,7 @@ class BaseIndexer:
         :return: Response from MeiliSearch add_documents API.
         """
         serializer: Serializer = self.serializer_class(self.queryset, many=True)
-        index = self.client.index(self.index_name, settings=settings, options=options)
+        index = self.client.index(self.index_name, index_settings=settings, options=options)
         return index.add_documents(serializer.data)
 
     def index_documents(self, documents: list, settings=None, options=None):
@@ -48,5 +49,5 @@ class BaseIndexer:
         :param options: Optional options for the index creation.
         :return: Response from MeiliSearch add_documents API.
         """
-        index = self.client.index(self.index_name, settings=settings, options=options)
+        index = self.client.index(self.index_name, index_settings=settings, options=options)
         return index.add_documents(documents)

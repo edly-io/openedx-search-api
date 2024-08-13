@@ -11,7 +11,7 @@ from django.conf import settings
 from django.utils.module_loading import import_string
 from rest_framework import serializers
 
-from django_search_api.drivers import DriverFactory  # pylint: disable=import-error
+from openedx_search_api.drivers import DriverFactory  # pylint: disable=import-error
 
 log = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class Command(BaseCommand):
         """
         client = DriverFactory.get_client(None)
         indexer_class = getattr(
-            self, 'INDEXER_CLASS', 'django_search_api.indexers.base.BaseIndexer'
+            self, 'INDEXER_CLASS', 'openedx_search_api.indexers.base.BaseIndexer'
         )
         klass = import_string(indexer_class)
         index_configurations = getattr(settings, 'INDEX_CONFIGURATIONS', {})

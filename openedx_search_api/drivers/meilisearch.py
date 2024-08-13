@@ -66,7 +66,7 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
             meilisearch_master_api_key,
             expiry_days=7
     ):  # pylint: disable=too-many-arguments
-        self.index = None
+        self._index = None
         self.api_key_id = meilisearch_api_id
         self.api_key = meilisearch_api_key
         self.url = meilisearch_url
@@ -160,7 +160,7 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
         index_config = getattr(
             settings,
             'INDEX_CONFIGURATION_CLASS',
-            'django_search_api.drivers.meilisearch.BaseIndexConfiguration'
+            'openedx_search_api.drivers.meilisearch.BaseIndexConfiguration'
         )
         klass = import_string(index_config)
         return klass(self.request, *args, **kwargs)
@@ -174,14 +174,14 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
         rules_instance = self._get_search_rules_class()
         return rules_instance.get_search_rules(search_rules=search_rules)
 
-    def index(self, index_name, _settings=None, options=None):
+    def index(self, index_name, index_settings=None, options=None):
         """
         Get or create an index in MeiliSearch.
         """
-        self.index = self.client.index(index_name)
+        self._index = self.client.index(index_name)
         try:
-            self.index.fetch_info()
+            self._index.fetch_info()
         except errors.MeilisearchApiError:
             self.client.create_index(index_name, options or {})
-            self.index.update_settings(_settings or {})
-        return self.index
+            self._index.update_settings(index_settings or {})
+        return self._index
