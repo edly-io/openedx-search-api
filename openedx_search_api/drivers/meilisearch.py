@@ -2,12 +2,13 @@
 Module for MeiliSearch Engine integration with Django.
 """
 
-from datetime import datetime, timezone, timedelta
-from typing import Optional, Mapping, Any, List, Dict
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Mapping, Optional
 
 from django.conf import settings
 from django.utils.module_loading import import_string
-from meilisearch import Client as MeilisearchClient, errors
+from meilisearch import Client as MeilisearchClient
+from meilisearch import errors
 from meilisearch.errors import MeilisearchError
 from meilisearch.index import Index
 from meilisearch.models.key import Key
