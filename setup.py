@@ -34,10 +34,18 @@ setup(
         'openedx_search_api.drivers',
         'openedx_search_api.migrations',
     ],
-    install_requires=load_requirements('requirements/base.in'),
+    install_requires=load_requirements('requirements/base.txt'),
     url='https://github.com/qasimgulzar/django-search',
     license='',
     author='qasimgulzar',
     author_email='qasim.khokhar52@gmail.com',
-    description=''
+    description='',
+    entry_points={
+        'lms.djangoapp': [
+            'openedx_search_api = openedx_search_api.apps:SearchConfig',
+        ],
+        'cms.djangoapp': [
+            'openedx_search_api = openedx_search_api.apps:SearchConfig',
+        ]
+    }
 )
