@@ -14,6 +14,7 @@ from meilisearch.index import Index
 from meilisearch.models.key import Key
 
 from . import BaseDriver
+from ..models import SearchEngineToken, SearchApiKeyModel
 
 
 class BaseIndexConfiguration:
@@ -62,17 +63,12 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
             request,
             meilisearch_url,
             meilisearch_public_url,
-            meilisearch_api_id,
-            meilisearch_api_key,
             meilisearch_master_api_key,
             expiry_days=7
     ):  # pylint: disable=too-many-arguments
-        self.index = None
-        self.api_key_id = meilisearch_api_id
-        self.api_key = meilisearch_api_key
+        self._index = None
         self.url = meilisearch_url
         self.public_url = meilisearch_public_url
-        self.meili_api_key_uid = None
         self.token_expires_at = datetime.now(tz=timezone.utc) + timedelta(days=expiry_days)
         self.request = request
         self.client: MeilisearchClient = MeilisearchClient(self.url, meilisearch_master_api_key)
@@ -101,33 +97,69 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
             }
         )
 
-    def _get_meili_api_key_uid(self):
+    def get_api_key(self):
         """
-        Helper method to get the UID of the API key we're using for MeiliSearch.
+        Returns api key pair [api_key_uid, api_key]
+        :return:
         """
-        if self.meili_api_key_uid is None:
-            self.meili_api_key_uid = self.client.get_key(self.api_key_id).uid
-        return self.meili_api_key_uid
+        api_key_model_object = SearchApiKeyModel.get_active_api_key(self.request.user)
+        if not api_key_model_object:
+            api_key = self.create_key()
+            SearchApiKeyModel.objects.update_or_create(
+                user=self.request.user,
+                defaults={
+                    'uid': api_key.uid,
+                    'name': api_key.name,
+                    'actions': api_key.actions,
+                    'indexes': api_key.indexes,
+                    'expires_at': api_key.expires_at,
+                    'key': api_key.key,
+                    'created_at': api_key.created_at,
+                    'updated_at': api_key.updated_at,
+                }
+            )
+            return api_key.uid, api_key.key
+        return api_key_model_object.uid, api_key_model_object.key
 
     def get_user_token(self, index_search_rules=None):
         """
         Generate a user token for MeiliSearch.
         """
-        restricted_api_key = self.client.generate_tenant_token(
-            api_key_uid=self._get_meili_api_key_uid(),
-            search_rules=index_search_rules or {},
-            expires_at=self.token_expires_at,
-            api_key=self.api_key
-        )
-
-        return {
+        response = {
             "url": self.public_url,
-            "token": restricted_api_key,
             "token_type": "Bearer",
             "expires_at": self.token_expires_at,
             "search_engine": self.SEARCH_ENGINE,
             "index_search_rules": index_search_rules
         }
+        token = SearchEngineToken.get_active_token(self.request.user)
+        if not token:
+            api_key_uid, key = self.get_api_key()
+            restricted_api_key = self.client.generate_tenant_token(
+                api_key_uid=api_key_uid,
+                search_rules=index_search_rules or {},
+                expires_at=self.token_expires_at,
+                api_key=key
+            )
+            response.update(token=restricted_api_key)
+            SearchEngineToken.objects.update_or_create(
+                defaults={
+                    'token': restricted_api_key,
+                    'token_type': "Bearer",
+                    'expires_at': self.token_expires_at,
+                    'search_engine': self.SEARCH_ENGINE,
+                    'index_search_rules': index_search_rules or {},
+                },
+                user=self.request.user
+            )
+        else:
+            response.update(
+                expires_at=token.expires_at,
+                token=token.token,
+                index_search_rules=token.index_search_rules
+            )
+
+        return response
 
     def indexes(self, parameters: Optional[Mapping[str, Any]] = None) -> Dict[str, List[Index]]:
         """
@@ -142,15 +174,11 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
         """
         meilisearch_url = getattr(settings, 'MEILISEARCH_URL')
         meilisearch_public_url = getattr(settings, 'MEILISEARCH_PUBLIC_URL')
-        meilisearch_api_key_id = getattr(settings, 'MEILISEARCH_API_KEY_ID')
-        meilisearch_api_key = getattr(settings, 'MEILISEARCH_API_KEY')
         meilisearch_master_api_key = getattr(settings, 'MEILISEARCH_MASTER_API_KEY')
         return MeiliSearchEngine(
             request,
             meilisearch_url,
             meilisearch_public_url,
-            meilisearch_api_key_id,
-            meilisearch_api_key,
             meilisearch_master_api_key
         )
 
@@ -161,7 +189,7 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
         index_config = getattr(
             settings,
             'INDEX_CONFIGURATION_CLASS',
-            'django_search_api.drivers.meilisearch.BaseIndexConfiguration'
+            'openedx_search_api.drivers.meilisearch.BaseIndexConfiguration'
         )
         klass = import_string(index_config)
         return klass(self.request, *args, **kwargs)
@@ -175,14 +203,14 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
         rules_instance = self._get_search_rules_class()
         return rules_instance.get_search_rules(search_rules=search_rules)
 
-    def index(self, index_name, _settings=None, options=None):
+    def index(self, index_name, index_settings=None, options=None):
         """
         Get or create an index in MeiliSearch.
         """
-        self.index = self.client.index(index_name)
+        self._index = self.client.index(index_name)
         try:
-            self.index.fetch_info()
+            self._index.fetch_info()
         except errors.MeilisearchApiError:
             self.client.create_index(index_name, options or {})
-            self.index.update_settings(_settings or {})
-        return self.index
+            self._index.update_settings(index_settings or {})
+        return self._index
