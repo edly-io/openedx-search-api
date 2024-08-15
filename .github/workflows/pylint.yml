@@ -23,6 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pylint
           pip install -e .
+          pip install -r requirements/testing.txt
       - name: Analysing the code with pylint
         run: |
-          pylint $(git ls-files './openedx_search_api/*.py')
+          pylint ./openedx_search_api/

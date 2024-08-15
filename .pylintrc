@@ -1,7 +1,2 @@
-[MESSAGES CONTROL]
-disable=
-    locally-disabled,
-    logging-format-interpolation,
-    too-few-public-methods,
-    too-many-instance-attributes,
-    import-error
+[MASTER]
+ignore=openedx_search_api/migrations
