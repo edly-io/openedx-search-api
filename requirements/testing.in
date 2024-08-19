@@ -2,3 +2,5 @@
 Django
 djangorestframework
 pytest
+coverage
+coverage-badge
