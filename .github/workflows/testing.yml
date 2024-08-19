@@ -38,6 +38,3 @@ jobs:
 
       - name: Run Tests
         run: coverage run manage.py test --settings=openedx_search.settings.test
-      - name: Update Coverge Badge
-        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        uses: we-cli/coverage-badge-action@main
