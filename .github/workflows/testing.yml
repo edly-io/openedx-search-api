@@ -10,6 +10,10 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
     services:
       meilisearch:
         image: getmeili/meilisearch:latest
@@ -37,4 +41,12 @@ jobs:
           python -m pip install -r requirements/testing.txt
 
       - name: Run Tests
-        run: coverage run manage.py test --settings=openedx_search.settings.test
+        run: |
+          coverage run --source=openedx_search_api manage.py test --settings=openedx_search.settings.test
+          coverage xml
+      - name: Get Cover
+        uses: orgoro/coverage@v3.2
+        with:
+          coverageFile: ./coverage.xml
+          thresholdAll: 0.7
+          token: ${{ secrets.GITHUB_TOKEN }}
