@@ -19,12 +19,9 @@ class SearchConfig(AppConfig):
                 'relative_path': 'urls',
             }
         },
-        # 'settings_config': {
-        #     'lms.djangoapp': {
-        #         'production': {'relative_path': 'settings.production'},
-        #     },
-        #     'cms.djangoapp': {
-        #         'production': {'relative_path': 'settings.production'},
-        #     },
-        # }
+        'settings_config': {
+            'lms.djangoapp': {
+                'production': {'relative_path': 'settings.production'},
+            },
+        }
     }
