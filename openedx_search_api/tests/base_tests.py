@@ -2,8 +2,10 @@
 Unit tests for the MeiliSearchEngine driver in the openedx_search_api package.
 """
 import json
+from io import StringIO
 
 from django.contrib.auth import get_user_model
+from django.core import management
 from django.test import TestCase, RequestFactory
 
 from openedx_search_api.drivers import DriverFactory
@@ -55,3 +57,18 @@ class DriverTestCase(TestCase):
         self.assertIn('token', payload)
         self.assertIn('expires_at', payload)
         self.assertIn('search_engine', payload)
+
+
+class CommandTest(TestCase):
+    """
+    This test case if covering management commands
+    """
+
+    def test_load_indexes(self):
+        """
+        This test is calling load_indexes management command
+        :return:
+        """
+        out = StringIO()
+        management.call_command('load_indexes', verbosity=1, stdout=out)
+        self.assertEqual(out.getvalue(), '')

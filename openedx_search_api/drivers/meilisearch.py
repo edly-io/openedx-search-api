@@ -65,7 +65,7 @@ class MeiliSearchEngine(BaseDriver):  # pylint disable=too-many-instance-attribu
             meilisearch_public_url,
             meilisearch_master_api_key,
             expiry_days=7
-    ):  # pylint: disable=too-many-arguments
+    ):  # pylint: disable=too-many-arguments, too-many-positional-arguments
         self._index = None
         self.url = meilisearch_url
         self.public_url = meilisearch_public_url

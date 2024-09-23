@@ -36,22 +36,6 @@ INDEX_CONFIGURATIONS = {
         },
         "model_class": "auth.User",
         "fields": "__all__"
-    },
-    "courseware_course_structure": {
-        "options": {
-            "primaryKey": "item_id"
-        },
-        "settings": {
-            "filterableAttributes": [
-                "CONTENT_TYPE",
-                "COURSE",
-                "ORG"
-            ]
-        },
-        "search_rules": [
-            "ORG: Arbisoft"
-        ],
-        "content_class": "openedx.core.djangoapps.content.content_classes.courseware_search_models.CoursewareContent"
     }
 }
 MEILISEARCH_API_KEY_ID = "c471bd40-303b-48bc-bb80-4602baff2675"
