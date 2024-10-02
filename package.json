@@ -1,0 +1,27 @@
+{
+  "name": "openedx-search-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Openedx search api is implemented to integrate search engines into MFE",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qasimgulzar/openedx-search-api.git"
+  },
+  "keywords": [
+    "openedx",
+    "search",
+    "meilisearch"
+  ],
+  "author": "Qasim Gulzar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qasimgulzar/openedx-search-api/issues"
+  },
+  "homepage": "https://github.com/qasimgulzar/openedx-search-api#readme"
+}
