@@ -1,6 +1,20 @@
+"""
+Settings configuration for the search API plugin.
+"""
+
 def plugin_settings(settings):
-    settings.INDEX_CONFIGURATION_CLASS = "openedx_search_api.drivers.meilisearch.BaseIndexConfiguration"
-    settings.INDEXER_CLASS = "openedx_search_api.indexers.base.BaseIndexer"
+    """
+    Configure settings for the search API plugin.
+
+    Args:
+        settings: The settings object to configure.
+    """
+    settings.INDEX_CONFIGURATION_CLASS = (
+        "openedx_search_api.drivers.meilisearch.BaseIndexConfiguration"
+    )
+    settings.INDEXER_CLASS = (
+        "openedx_search_api.indexers.base.BaseIndexer"
+    )
     settings.INDEX_CONFIGURATIONS = {
         "user_content": {
             "options": {
@@ -30,6 +44,9 @@ def plugin_settings(settings):
                     "org"
                 ]
             },
-            "content_class": "openedx.core.djangoapps.content.content_classes.courseware_search_models.CoursewareContent"
+            "content_class": (
+                "openedx.core.djangoapps.content.content_classes."
+                "courseware_search_models.CoursewareContent"
+            )
         }
     }
