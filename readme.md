@@ -41,9 +41,9 @@ MEILISEARCH_MASTER_API_KEY = "masterKey"
 MEILISEARCH_API_KEY = "da7a448d-2b13-490b-8ca6-6b3e051b4201"
 
 # Specify the search engine driver to use Meilisearch
-SEARCH_ENGINE = "django_search_backend.drivers.meilisearch.MeiliSearchEngine"
-INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
-INDEXER_CLASS = "django_search_backend.indexers.base.BaseIndexer"
+SEARCH_ENGINE = "openedx_search_api.drivers.meilisearch.MeiliSearchEngine"
+INDEX_CONFIGURATION_CLASS = "openedx_search_api.drivers.meilisearch.BaseIndexConfiguration"
+INDEXER_CLASS = "openedx_search_api.indexers.base.BaseIndexer"
 
 # Index name for courseware information
 COURSEWARE_INFO_INDEX_NAME = 'course_info'
@@ -54,7 +54,7 @@ COURSEWARE_INFO_INDEX_NAME = 'course_info'
 1. Set below mentioned configurations to set token wide search rules on index.
 
 ```python
-INDEX_CONFIGURATION_CLASS = "django_search_backend.drivers.meilisearch.BaseIndexConfiguration"
+INDEX_CONFIGURATION_CLASS = "openedx_search_api.drivers.meilisearch.BaseIndexConfiguration"
 INDEX_CONFIGURATIONS = {
     "user_content": {
         "options": {
@@ -93,7 +93,7 @@ INDEX_CONFIGURATIONS = {
 3. After updating settings you can use below snippet to generate personalised token.
 
 ```python
-    from django_search_backend.drivers import DriverFactory
+    from openedx_search_api.drivers import DriverFactory
 
 client = DriverFactory.get_client(request)
 search_rules = client.get_search_rules()
