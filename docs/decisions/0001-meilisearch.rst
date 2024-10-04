@@ -74,11 +74,11 @@ permissions, so that search requests can be made directly from the user to
 Meilisearch, rather than routing them through Django. Initial testing has shown
 it to be much more developer friendly than Elasticsearch/OpenSearch.
 
-At the time of writing, there are only two known concerns with Meilisearch:
+As of August 2024, there are only two known concerns with Meilisearch:
 
 1. It doesn't (yet) support High Availability via replication, although this is
    planned and under development. It does have other features to support high
-   availability, such as very low restart time (in ms).
+   availability, such as very low restart time (in ms). `link <https://roadmap.meilisearch.com/c/24-high-availibility?&utm_medium=social&utm_source=starter_share>`_
 2. It doesn't support boolean operators in keyword search ("red AND panda"),
    though it does of course support boolean operators in filters. This is a
    product decision aimed at keeping the user experience simple, and is unlikely
@@ -88,6 +88,13 @@ Problem with edx-search
 =======================
 
 The edx-search feature is currently utilized only within the edx-platform, and many of its implementations are now deprecated in the new microfrontend environments. Additionally, it lacks the personalized token functionality, making it incompatible with advanced search engines such as Meilisearch. Even if we attempt to extend edx-search to support Meilisearch, it would still follow the same proxy mechanism and would not be able to utilize personalized tokens effectively. To find a detailed list of architectural issues here.
+
+To learn more about the state of edx-search please refer `here <https://openedx.atlassian.net/wiki/spaces/AC/pages/3884744738/State+of+edx-search+2023>`_.
+
+`@Braden <https://discuss.openedx.org/u/braden/summary>`_ has also mentioned couple of problems `here <https://discuss.openedx.org/t/auto-suggest-course-content-on-search-meilisearch-compatible/13202/18?u=qasimgulzar>`_ with edx-search.
+
+Decision
+********
 
 Open edX Search API
 ===================
@@ -141,6 +148,6 @@ Below is an example of adding a client SDK:
 <script src="<%= process.env.BASE_URL %>/static/django_search_backend/js/search_library.js" type="text/javascript"></script>
 ```
 
-We have created an example to showcase this [here](https://github.com/openedx/frontend-app-learning/compare/master...qasimgulzar:frontend-app-learning:qasim/autosuggest-courseware).
+We have created an example to showcase this `here <https://github.com/openedx/frontend-app-learning/compare/master...qasimgulzar:frontend-app-learning:qasim/autosuggest-courseware>`_.
 
-Please also refer to the [Content Class Example](https://github.com/openedx/edx-platform/pull/35177/files#diff-9f2ba6df1933f2b8b4a9939582d954107a465742a83db2c13cdc89eec8cc1fc3).
+Please also refer to the Content Class `Example <https://github.com/openedx/edx-platform/pull/35177/files#diff-9f2ba6df1933f2b8b4a9939582d954107a465742a83db2c13cdc89eec8cc1fc3>`_.
